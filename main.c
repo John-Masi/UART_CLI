@@ -55,7 +55,9 @@ int main() {
   while(1) {
     poll_timer();
     if(ready) {
-      ready = 0;
+      ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+        ready = 0;
+      }
       if(strcmp(buffer,"On") == 0) {
         PORTB |= (1 << 7);
         tx_string("LED ON\n\r");
@@ -72,8 +74,11 @@ int main() {
         x_char('\n');
         x_char('\r');
       }
-      head = 0;
-      buffer[0] = '\0';
+      else if(strcmp(buffer,"exit") == 0)
+      ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+        head = 0;
+        buffer[0] = '\0';
+      }
     }
     
   }
