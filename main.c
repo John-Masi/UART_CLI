@@ -74,7 +74,6 @@ int main() {
         x_char('\n');
         x_char('\r');
       }
-      else if(strcmp(buffer,"exit") == 0)
       ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
         head = 0;
         buffer[0] = '\0';
